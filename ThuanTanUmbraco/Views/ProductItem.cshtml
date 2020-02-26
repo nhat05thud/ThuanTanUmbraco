@@ -1,0 +1,160 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var node = (IPublishedContent)CurrentPage;
+    var colorNested = (List<IPublishedContent>)CurrentPage.GetPropertyValue<IEnumerable<IPublishedContent>>("productColors");
+    var morePro = node.Parent.Children.Where(x => x.Id != node.Id).OrderByDescending(x => x.SortOrder);
+    var home = Model.Content;
+}
+@Html.Partial("~/Views/Partials/Layout/_BreadCrumb.cshtml")
+<div class="container">
+    <div class="wrap-product-detail">
+        <div class="left">
+            @if (colorNested != null && colorNested.Any())
+            {
+                var item = colorNested.First();
+                var listImages = (List<IPublishedContent>)item.GetPropertyValue<IEnumerable<IPublishedContent>>("listImage");
+                if (listImages != null)
+                {
+                    <div class="main-image">
+                        @foreach (var img in listImages.Take(1))
+                        {
+                            <img src="@img.GetCropUrl(550, 550, furtherOptions: "&slimmage=true")" alt="@node.Name" />
+                        }
+                    </div>
+                    <div class="more-image owl-carousel">
+                        @foreach (var img in listImages.Skip(1))
+                        {
+                            <div class="item">
+                                <img src="@img.GetCropUrl(90, 90, furtherOptions: "&slimmage=true")" alt="@node.Name" />
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                var thumb = Umbraco.TypedMedia(node.GetPropertyValue<int>("image"));
+                <div class="main-image">
+                    <img src="@(thumb != null ? thumb.GetCropUrl(550, 550, furtherOptions: "&slimmage=true") : "/images/no-image.png?anchor=center&mode=crop&width=270&height=270&slimmage=true&rnd=" + node.UpdateDate.ToString("ddMMyyyhhmmss"))" alt="@node.Name" />
+                </div>
+            }
+        </div>
+        <div class="right">
+            <h1>@node.Name</h1>
+            <div class="content-product">
+                <ul>
+                    <li>Size: @node.GetPropertyValue("size")</li>
+                    @if (colorNested != null && colorNested.Any())
+                    {
+                        <li>
+                            @Umbraco.GetDictionaryValue("Color"):
+                            <div class="product-colors">
+                                @foreach (var item in colorNested)
+                                {
+                                    <div class="item @(colorNested.IndexOf(item) == 0 ? "active" : "")" data-id="@node.Id" data-color="@item.GetPropertyValue("color")" style="background: @item.GetPropertyValue("color")"></div>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="content-product">
+                <div class="desc">
+                    @node.GetPropertyValue("description")
+                </div>
+                <p class="price">
+                    Giá bán:
+                    @if (node.GetPropertyValue<int>("price") > 0)
+                    {
+                        if (node.GetPropertyValue<double>("promotion") > 0)
+                        {
+                            <span>@(string.Format("{0:#,0}", node.GetPropertyValue("price"))) VND</span>
+                            @(string.Format("{0:#,0}", Math.Round(node.GetPropertyValue<double>("price") * (100 - node.GetPropertyValue<double>("promotion")) / 100, MidpointRounding.AwayFromZero))) <text>VND</text>
+                        }
+                        else
+                        {
+                            @(string.Format("{0:#,0}", node.GetPropertyValue("price"))) <text>VND</text>
+                        }
+                    }
+                    else
+                    {
+                        <b>Liên hệ</b>
+                    }
+                </p>
+            </div>
+            <div class="hotline-tuvan">Hotline tư vấn: <span>@(home.GetPropertyValue("hotline"))</span></div>
+            <a href="#" class="note">mua hàng</a>
+        </div>
+    </div>
+    <div class="product-description">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="#tab1" class="active" data-toggle="tab">Mô tả sản phẩm</a>
+            </li>
+            <li>
+                <a href="#tab2" data-toggle="tab">Chính sách đổi trả</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <div class="w970 custom__width">
+                    <div class="wrap-content">
+                        @node.GetPropertyValue("content")
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <div class="w970 custom__width">
+                    <div class="wrap-content">
+                        @node.GetPropertyValue("policy")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="new-product">
+        <h1 class="title">Sản phẩm liên quan</h1>
+        <div class="product-carousel owl-carousel">
+            @foreach (var item in morePro)
+            {
+                var thumb = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+                <div class="item__grid--2">
+                    <div class="img">
+                        <a href="@item.Url">
+                            <img src="@(thumb != null ? thumb.GetCropUrl(270, 240, furtherOptions: "&slimmage=true") : "https://via.placeholder.com/270x240")" alt="@item.Name" />
+                            @if (item.GetPropertyValue<double>("promotion") > 0)
+                            {
+                                <p class="percent">-@(item.GetPropertyValue<double>("promotion"))%</p>
+                            }
+                        </a>
+                    </div>
+                    <div class="content">
+                        <a href="@item.Url">@item.Name</a>
+                        <div class="desc">
+                            @item.GetPropertyValue("description")
+                        </div>
+                        <p class="price">
+                            @if (item.GetPropertyValue<int>("price") > 0)
+                            {
+                                if (item.GetPropertyValue<double>("promotion") > 0)
+                                {
+                                    <span>@(string.Format("{0:#,0}", item.GetPropertyValue("price"))) VND</span>
+                                    @(string.Format("{0:#,0}", Math.Round(item.GetPropertyValue<double>("price") * (100 - item.GetPropertyValue<double>("promotion")) / 100, MidpointRounding.AwayFromZero))) <text>VND</text>
+                                }
+                                else
+                                {
+                                    @(string.Format("{0:#,0}", item.GetPropertyValue("price"))) <text>VND</text>
+                                }
+                            }
+                            else
+                            {
+                                <b>Liên hệ</b>
+                            }
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

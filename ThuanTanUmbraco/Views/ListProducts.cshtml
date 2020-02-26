@@ -1,0 +1,106 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var node = (IPublishedContent)CurrentPage;
+    var items = (IEnumerable<IPublishedContent>)CurrentPage.Children().Where("Visible");
+    var child = items.OrderByDescending(x => x.SortOrder).ToList();
+    var pageSize = 16;
+
+    var page = 1; int.TryParse(Request.QueryString["page"], out page);
+    var totalPages = (int)Math.Ceiling((double)child.Count() / (double)pageSize);
+
+    if (page > totalPages)
+    {
+        page = totalPages;
+    }
+    else if (page < 1)
+    {
+        page = 1;
+    }
+}
+@Html.Partial("~/Views/Partials/Layout/_BreadCrumb.cshtml")
+<div class="wrap-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="wrap-main__aside">
+                    <img src="/images/ico.png" alt="" />
+                    <div class="item">
+                        <a href="@node.Parent.Url">@node.Parent.Name</a>
+                        <ul>
+                            @foreach (var item in node.Parent.Children)
+                            {
+                                <li @(item.Id == CurrentPage.Id ? "class=active" : null)><a href="@item.Url">@item.Name</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="wrap-main__product">
+                    <h1 class="main-title">@node.Name</h1>
+                    <div class="row">
+                        @foreach (var item in child.Skip((page - 1) * pageSize).Take(pageSize))
+                        {
+                            var thumb = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+                            <div class="col-md-4">
+                                <div class="item__grid--2">
+                                    <div class="img">
+                                        <a href="@item.Url">
+                                            <img src="@(thumb != null ? thumb.GetCropUrl(270, 240, furtherOptions: "&slimmage=true") : "https://via.placeholder.com/270x240")" alt="@item.Name"/>
+                                            @if (item.GetPropertyValue<double>("promotion") > 0)
+                                            {
+                                                <p class="percent">-@(item.GetPropertyValue<double>("promotion"))%</p>
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <a href="@item.Url">@item.Name</a>
+                                        <div class="desc">
+                                            @item.GetPropertyValue("description")
+                                        </div>
+                                        <p class="price">
+                                            @if (item.GetPropertyValue<int>("price") > 0)
+                                            {
+                                                if (item.GetPropertyValue<double>("promotion") > 0)
+                                                {
+                                                    <span>@(string.Format("{0:#,0}", item.GetPropertyValue("price"))) VND</span>
+                                                    @(string.Format("{0:#,0}", Math.Round(item.GetPropertyValue<double>("price") * (100 - item.GetPropertyValue<double>("promotion")) / 100, MidpointRounding.AwayFromZero))) <text>VND</text>
+                                                }
+                                                else
+                                                {
+                                                    @(string.Format("{0:#,0}", item.GetPropertyValue("price"))) <text>VND</text>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <b>Liên hệ</b>
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    @if (totalPages > 1)
+                    {
+                        <div class="pager text-center">
+                            @if (page > 1)
+                            {
+                                <a class="prev" href="?page=@(page-1)"><i class="fa fa-angle-left"></i></a>
+                            }
+                            @for (int p = 1; p < totalPages + 1; p++)
+                            {
+                                <a class="@(p == page ? "current" : string.Empty)" href="?page=@p">@p</a>
+                            }
+                            @if (page < totalPages)
+                            {
+                                <a class="next" href="?page=@(page+1)"><i class="fa fa-angle-right"></i></a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

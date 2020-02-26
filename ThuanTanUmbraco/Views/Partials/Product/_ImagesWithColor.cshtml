@@ -1,0 +1,28 @@
+﻿@inherits UmbracoViewPage<ThuanTanUmbraco.Models.Product>
+@{
+    var content = Model.RenderProduct.Content;
+    var colorNested = (List<IPublishedContent>)content.GetPropertyValue<IEnumerable<IPublishedContent>>("colorNested");
+}
+
+@if (colorNested != null && colorNested.Any())
+{
+    var item = colorNested.FirstOrDefault(x => x.GetPropertyValue<string>("color").Replace(" ", "").Equals(Model.Color.Replace(" ", "")));
+    var listImages = (List<IPublishedContent>)item.GetPropertyValue<IEnumerable<IPublishedContent>>("listImage");
+    if (listImages != null)
+    {
+        <div class="main-image">
+            @foreach (var img in listImages.Take(1))
+            {
+                <img src="@img.GetCropUrl(550, 550, furtherOptions: "&slimmage=true")" alt="@content.Name" />
+            }
+        </div>
+        <div class="more-image owl-carousel">
+            @foreach (var img in listImages.Skip(1))
+            {
+                <div class="item">
+                    <img src="@img.GetCropUrl(90, 90, furtherOptions: "&slimmage=true")" alt="@content.Name" />
+                </div>
+            }
+        </div>
+    }
+}
