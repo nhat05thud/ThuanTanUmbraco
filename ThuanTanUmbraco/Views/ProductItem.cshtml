@@ -36,7 +36,7 @@
             {
                 var thumb = Umbraco.TypedMedia(node.GetPropertyValue<int>("image"));
                 <div class="main-image">
-                    <img src="@(thumb != null ? thumb.GetCropUrl(550, 550, furtherOptions: "&slimmage=true") : "/images/no-image.png?anchor=center&mode=crop&width=270&height=270&slimmage=true&rnd=" + node.UpdateDate.ToString("ddMMyyyhhmmss"))" alt="@node.Name" />
+                    <img src="@(thumb != null ? thumb.GetCropUrl(550, 550, furtherOptions: "&slimmage=true") : "https://via.placeholder.com/455x455")" alt="@node.Name" />
                 </div>
             }
         </div>

@@ -1,0 +1,19 @@
+﻿@inherits UmbracoViewPage<ThuanTanUmbraco.Models.LoginForm>
+@{
+    if (!string.IsNullOrEmpty(Model.ResponseText))
+    {
+        <div class="field-validation-error">
+            @Model.ResponseText
+        </div>
+    }
+}
+@Html.AntiForgeryToken()
+<div class="item">
+    @Html.TextBoxFor(x => x.Username, new { placeholder = "Email" })
+    @Html.ValidationMessageFor(x => x.Username)
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <input type="submit" value="Reset My Password" style="width: auto">
+    </div>
+</div>

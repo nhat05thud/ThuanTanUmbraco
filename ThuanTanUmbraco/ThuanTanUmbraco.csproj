@@ -65,8 +65,20 @@
     <Reference Include="controls, Version=1.0.7180.24667, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.3\lib\net452\controls.dll</HintPath>
     </Reference>
+    <Reference Include="DotLiquid, Version=2.0.323.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotLiquid.2.0.323\lib\net45\DotLiquid.dll</HintPath>
+    </Reference>
     <Reference Include="Examine, Version=0.1.90.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Examine.0.1.90\lib\net45\Examine.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.7.9\lib\net46\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SimpleInjector, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SimpleInjector.1.3.1\lib\net45\Hangfire.SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.7.9\lib\net45\Hangfire.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.8.8.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.8.8\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -152,6 +164,18 @@
     </Reference>
     <Reference Include="Semver, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\semver.1.1.2\lib\net451\Semver.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.9.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping, Version=4.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Extensions.ExecutionContextScoping.4.0.0\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=4.9.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.4.9.0\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=4.9.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.4.9.0\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="SQLCE4Umbraco, Version=1.0.7180.24667, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.3\lib\net452\SQLCE4Umbraco.dll</HintPath>
@@ -466,7 +490,14 @@
     <Content Include="Scripts\jquery.main.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.panel.mobile.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Templates\Emails\approved.html" />
+    <Content Include="Templates\Emails\blank.html" />
+    <Content Include="Templates\Emails\notApproved.html" />
     <Content Include="Web.config" />
     <Content Include="Views\Partials\Layout\_Footer.cshtml" />
     <Content Include="Views\Partials\Contact\_Contact.cshtml" />
@@ -479,6 +510,9 @@
     <Content Include="Views\PolicyItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="App_Start\UmbracoAuthorizationFilter.cs" />
+    <Compile Include="BackgroundJobs\SendMail.cs" />
     <Compile Include="ClassHelper\UmbracoDisplay.cs" />
     <Compile Include="ClassHelper\UmbracoEmail.cs" />
     <Compile Include="ClassHelper\UmbracoHelper.cs" />
@@ -486,11 +520,21 @@
     <Compile Include="ClassHelper\UmbracoRegularExpression.cs" />
     <Compile Include="ClassHelper\UmbracoRequired.cs" />
     <Compile Include="ClassHelper\Utils.cs" />
+    <Compile Include="Controllers\MemberFrontEndController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="CustomGlobal.cs" />
+    <Compile Include="Mailer\EmailMessage.cs" />
+    <Compile Include="Mailer\EmailSenderException.cs" />
+    <Compile Include="Mailer\EmailSenderExtensions.cs" />
+    <Compile Include="Mailer\IEmailSender.cs" />
+    <Compile Include="Mailer\SmtpEmailSender.cs" />
     <Compile Include="Models\ContactForm.cs" />
+    <Compile Include="Models\LoginForm.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplateEngine\DotLiquidTemplate.cs" />
+    <Compile Include="TemplateEngine\ITextTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\imageprocessor\security.config" />
@@ -543,6 +587,17 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Partials\Layout\_Header.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Partials\User\_User.cshtml" />
+    <Content Include="Views\Partials\Cart\_Cart.cshtml" />
+    <Content Include="Views\Partials\User\Login\_Login.cshtml" />
+    <Content Include="Views\Partials\User\Login\_Form.cshtml" />
+    <Content Include="Views\ForgotPassword.cshtml" />
+    <Content Include="Views\SignIn.cshtml" />
+    <Content Include="Views\SignUp.cshtml" />
+    <Content Include="Views\visitor.cshtml" />
+    <Content Include="Views\visitorItem.cshtml" />
+    <Content Include="Views\Partials\User\ForgotPassword\_Form.cshtml" />
+    <Content Include="Templates\Emails\docx\INVITATIONLETTER.docx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -554,7 +609,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\MemberFrontEnd\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

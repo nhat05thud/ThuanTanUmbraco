@@ -19,7 +19,10 @@
                             @foreach (var childPage in home.Children())
                             {
                                 var page = (IPublishedContent)childPage;
-                                if (page.DocumentTypeAlias != "partner" && page.DocumentTypeAlias != "visitor")
+                                if (page.DocumentTypeAlias == "product" 
+                                    || page.DocumentTypeAlias == "news" 
+                                    || page.DocumentTypeAlias == "policy" 
+                                    || page.DocumentTypeAlias == "contact")
                                 {
                                     if (page.DocumentTypeAlias == "product")
                                     {
@@ -67,108 +70,8 @@
                             </div>
                         </div>
                         <div class="header-right__form--cart d-inline-b ver-top pd-l-r-15">
-                            <div class="item user-form">
-                                <div class="item-visible">
-                                    <i class="mysprite user"></i>
-                                </div>
-                                <div class="wrap-hidden">
-                                    <div class="wrap-user__login">
-                                        <div class="item">
-                                            <input type="text" placeholder="Email" value="" />
-                                        </div>
-                                        <div class="item">
-                                            <input type="password" placeholder="Password" value="" />
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="submit" value="Đăng nhập" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <a href="#">Quên mật khẩu?</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap-user__signup">
-                                        <p>Creating an account has many benefits: check out faster, keep more than one address, track orders and more.</p>
-                                        <a href="#">Tạo tài khoản</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item cart-form">
-                                <div class="item-visible">
-                                    <i class="mysprite cart"></i>
-                                    <span>0</span>
-                                </div>
-                                <div class="wrap-hidden">
-                                    <div class="items-in-cart">
-                                        <div class="item">
-                                            <div class="img">
-                                                <a href="#">
-                                                    <img src="https://via.placeholder.com/85x100" alt="" />
-                                                </a>
-                                            </div>
-                                            <div class="content">
-                                                <a href="#">Đồng Hồ Nam Citizen BI1054.55A</a>
-                                                <p class="price">3.420.000 VNĐ <span>x1</span></p>
-                                            </div>
-                                            <a href="#" class="remove-item">x</a>
-                                        </div>
-                                        <div class="item">
-                                            <div class="img">
-                                                <a href="#">
-                                                    <img src="https://via.placeholder.com/85x100" alt="" />
-                                                </a>
-                                            </div>
-                                            <div class="content">
-                                                <a href="#">Đồng Hồ Nam Citizen BI1054.55A</a>
-                                                <p class="price">3.420.000 VNĐ <span>x1</span></p>
-                                            </div>
-                                            <a href="#" class="remove-item">x</a>
-                                        </div>
-                                        <div class="item">
-                                            <div class="img">
-                                                <a href="#">
-                                                    <img src="https://via.placeholder.com/85x100" alt="" />
-                                                </a>
-                                            </div>
-                                            <div class="content">
-                                                <a href="#">Đồng Hồ Nam Citizen BI1054.55A</a>
-                                                <p class="price">3.420.000 VNĐ <span>x1</span></p>
-                                            </div>
-                                            <a href="#" class="remove-item">x</a>
-                                        </div>
-                                        <div class="item">
-                                            <div class="img">
-                                                <a href="#">
-                                                    <img src="https://via.placeholder.com/85x100" alt="" />
-                                                </a>
-                                            </div>
-                                            <div class="content">
-                                                <a href="#">Đồng Hồ Nam Citizen BI1054.55A</a>
-                                                <p class="price">3.420.000 VNĐ <span>x1</span></p>
-                                            </div>
-                                            <a href="#" class="remove-item">x</a>
-                                        </div>
-                                        <div class="item">
-                                            <div class="img">
-                                                <a href="#">
-                                                    <img src="https://via.placeholder.com/85x100" alt="" />
-                                                </a>
-                                            </div>
-                                            <div class="content">
-                                                <a href="#">Đồng Hồ Nam Citizen BI1054.55A</a>
-                                                <p class="price">3.420.000 VNĐ <span>x1</span></p>
-                                            </div>
-                                            <a href="#" class="remove-item">x</a>
-                                        </div>
-                                    </div>
-                                    <p class="total">
-                                        Tổng: <span>3.420.000 VNĐ</span>
-                                    </p>
-                                    <a href="#" class="pay">Thanh toán</a>
-                                    <a href="#" class="view-cart">Xem giỏ hàng</a>
-                                </div>
-                            </div>
+                            @Html.Partial("~/Views/Partials/User/_User.cshtml")
+                            @Html.Partial("~/Views/Partials/Cart/_Cart.cshtml")
                         </div>
                     </div>
                 </div>

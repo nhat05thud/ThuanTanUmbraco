@@ -1,0 +1,26 @@
+﻿@using ThuanTanUmbraco.Models
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var forgotPasswordPage = Model.Content.Site().FirstChild("forgotPassword");
+}
+@using (Ajax.BeginForm("MemberLogin",
+    "MemberFrontEnd",
+    null,
+    new AjaxOptions
+    {
+        UpdateTargetId = "contentAjaxForm",
+        HttpMethod = "POST"
+    }, new { @class = "ajaxForm" }))
+{
+    <div id="contentAjaxForm">
+        @Html.Partial("~/Views/Partials/User/Login/_Form.cshtml", new LoginForm())
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="submit" value="Đăng nhập" />
+        </div>
+        <div class="col-md-6">
+            <a href="@(forgotPasswordPage != null ? forgotPasswordPage.Url : "#")">Quên mật khẩu?</a>
+        </div>
+    </div>
+}

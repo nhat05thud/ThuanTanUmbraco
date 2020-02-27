@@ -15,22 +15,18 @@ namespace ThuanTanUmbraco.Controllers
         public ActionResult HandleContactForm(ContactForm model)
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(model.CultureLCID);
-
-            //Check if the dat posted is valid (All required's & email set in email field)
             if (!ModelState.IsValid)
             {
-                //Not valid - so lets return the user back to the view with the data they entered still prepopulated
-                model.ErrorMsg = "Đã có lỗi xảy ra, Vui lòng thử lại sau !!";
+                model.ErrorMsg = Umbraco.GetDictionaryValue("Send.Failure");
                 return PartialView("~/Views/Partials/Contact/_Form.cshtml", model);
             }
+            var domainName = Request.Url?.GetLeftPart(UriPartial.Authority);
             var emailReceive = WebConfigurationManager.AppSettings["EmailContactReceive"];
-            var messageString = "<h3>ĐÔNG MINH LIÊN HỆ</h3>";
+            var messageString = "<h3>" + domainName + " LIÊN HỆ</h3>";
             messageString += "<b>Họ Tên: </b>" + model.Name + "<br />";
             messageString += "<b>Email: </b>" + model.Email + "<br />";
             messageString += "<b>Điện thoại: </b>" + model.Phone + "<br />";
             messageString += "<b>Nội dung tin nhắn: </b>" + model.Message;
-
-            //Generate an email message object to send
             var email = new MailMessage
             {
                 Subject = "Nội dung liên hệ",
@@ -48,17 +44,13 @@ namespace ThuanTanUmbraco.Controllers
             }
             catch (Exception ex)
             {
-                //Throw an exception if there is a problem sending the email
                 throw ex;
             }
-
-
-            //All done - lets redirect to the current page & show our thanks/success message
             model.Name = "";
             model.Email = "";
             model.Phone = "";
             model.Message = "";
-            model.ErrorMsg = "Tin nhắn đã được gửi thành công !!!";
+            model.ErrorMsg = Umbraco.GetDictionaryValue("Send.Success");
             ModelState.Clear();
             return PartialView("~/Views/Partials/Contact/_Form.cshtml", model);
         }

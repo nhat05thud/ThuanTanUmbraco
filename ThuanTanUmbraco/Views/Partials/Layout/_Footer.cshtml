@@ -3,6 +3,7 @@
     var home = CurrentPage.AncestorOrSelf(1);
     var footer = Model.Content.Site().FirstChild("contact");
     var policy = Model.Content.Site().FirstChild("policy");
+    var visitor = Model.Content.Site().FirstChild("visitor");
 }
 <div class="shop-info">
     <div class="container">
@@ -51,7 +52,7 @@
                         @if (policy != null)
                         {
                             <ul>
-                                @foreach (var item in policy.Children)
+                                @foreach (var item in policy.Children.Take(3))
                                 {
                                     <li><a href="@item.Url">@item.Name</a></li>
                                 }
@@ -72,8 +73,22 @@
                     <div class="col-md-5">
                         <h1>Thống kê truy cập</h1>
                         <ul class="visitor">
-                            <li>Đang online: 133</li>
-                            <li>Lượt truy cập: 2,928,763</li>
+                            <li>
+                                Đang online: @HttpContext.Current.Application["OnlineVisitors"]
+                            </li>
+                            <li>
+                                Lượt truy cập: 
+                                @if (visitor != null)
+                                {
+                                    var childs = visitor.Children();
+                                    var n = childs.Sum(x => Convert.ToInt32(x.GetPropertyValue("lbNumber")));
+                                    <span>@n</span>
+                                }
+                                else
+                                {
+                                    <span>0</span>
+                                }
+                            </li>
                         </ul>
                     </div>
                 </div>

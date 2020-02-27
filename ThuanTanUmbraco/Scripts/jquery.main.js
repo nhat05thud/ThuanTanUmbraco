@@ -1,6 +1,7 @@
 ﻿(function ($) {
     $(function () {
         myfunload();
+        moreImage();
         cartOpen(".header-right__form--cart .item .item-visible");
         $(".product-colors .item").click(function () {
             $(".product-colors .item").removeClass("active");
@@ -8,6 +9,22 @@
         });
     });
 })(jQuery);
+
+$(document).ready(function () {
+    $(".ajaxForm").on('submit', function () {
+        if (!$(this).find("input").hasClass("input-validation-error") || !$(this).find("textarea").hasClass("input-validation-error")) {
+            $(".loading_div").css("display", "block");
+        }
+    });
+});
+function onSuccess() {
+    $(".loading_div").css("display", "none");
+    $("#divUpdateMessage").removeClass("alert alert-danger").addClass("alert alert-success");
+}
+function onFailure() {
+    $(".loading_div").css("display", "none");
+    $("#divUpdateMessage").addClass("alert alert-danger");
+}
 $(document).ready(function () {
     $(".header-right__form--cart .items-in-cart").mCustomScrollbar({
         autoHideScrollbar: true,
@@ -33,6 +50,35 @@ $(document).ready(function () {
         });
     });
 });
+function moreImage() {
+    $(".more-image").owlCarousel({
+        margin: 10,
+        lazyLoad: true,
+        loop: false,
+        nav: false,
+        dots: false,
+        autoplay: false,
+        autoplayTimeout: 7000,
+        autoplayHoverPause: true,
+        responsive: {
+            0: {
+                items: 3
+            },
+            480: {
+                items: 3
+            },
+            600: {
+                items: 4
+            },
+            1000: {
+                items: 4
+            },
+            1200: {
+                items: 5
+            }
+        }
+    });
+}
 $(document).click(function (e) {
     var container = $("#header");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
@@ -114,31 +160,15 @@ function myfunload() {
             }
         }
     });
-    $('.more-image').owlCarousel({
-        margin: 10,
-        lazyLoad: true,
-        loop: true,
-        nav: false,
-        dots: false,
-        autoplay: false,
-        autoplayTimeout: 7000,
-        autoplayHoverPause: true,
-        responsive: {
-            0: {
-                items: 3
-            },
-            480: {
-                items: 3
-            },
-            600: {
-                items: 4
-            },
-            1000: {
-                items: 4
-            },
-            1200: {
-                items: 5
-            }
+}
+function logout() {
+    $("body > .loading_div").css("display", "block");
+    $.ajax({
+        type: "POST",
+        url: "/umbraco/surface/memberfrontend/logout",
+        success: function () {
+            $("body > .loading_div").css("display", "none");
+            location.reload();
         }
     });
 }
