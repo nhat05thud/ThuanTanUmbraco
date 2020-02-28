@@ -26,17 +26,17 @@ namespace ThuanTanUmbraco.BackgroundJobs
             enableSsl: Convert.ToBoolean(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"] ?? "False"));
 
         [DisplayName("[SendEmail] Test Email: {0}")]
-        public async Task Send(string email, string title, string content)
+        public async Task SendMailResetPassword(string email, string title, string newPassword)
         {
             var newMessage = _emailSender.CreateNoReplyEmail();
             newMessage.To = email;
             newMessage.Subject = title;
-            newMessage.Body = _textTemplate.Render("blank", new { content });
+            newMessage.Body = _textTemplate.Render("resetPassword", new { email, newPassword });
             await _emailSender.SendAsync(newMessage);
         }
-        public static void Enqueue(string email, string title, string content)
+        public static void EnqueueForgotPassword(string email, string title, string newPassword)
         {
-            BackgroundJob.Enqueue<SendMail>(s => s.Send(email, title, content));
+            BackgroundJob.Enqueue<SendMail>(s => s.SendMailResetPassword(email, title, newPassword));
         }
     }
 }

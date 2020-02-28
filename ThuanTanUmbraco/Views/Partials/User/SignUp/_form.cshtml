@@ -1,0 +1,31 @@
+﻿@inherits UmbracoViewPage<ThuanTanUmbraco.Models.RegisterForm>
+@{
+    @*if (!string.IsNullOrEmpty(Model.ResponseText))
+        {
+            <div class="@(Model.IsSuccess ? "field-validation-success" : "field-validation-error")" style="margin-bottom: 10px;">
+                @Model.ResponseText
+            </div>
+        }*@
+}
+@Html.AntiForgeryToken()
+<div class="item">
+    @Html.TextBoxFor(x => x.FirstName, new { placeholder = "Họ" })
+    @Html.ValidationMessageFor(x => x.FirstName)
+</div>
+<div class="item">
+    @Html.TextBoxFor(x => x.LastName, new { placeholder = "Tên" })
+    @Html.ValidationMessageFor(x => x.LastName)
+</div>
+<div class="item">
+    @Html.TextBoxFor(x => x.Username, new { placeholder = "Email" })
+    @Html.ValidationMessageFor(x => x.Username)
+</div>
+<div class="item">
+    @Html.PasswordFor(x => x.Password, new { placeholder = "Mật khẩu" })
+    @Html.ValidationMessageFor(x => x.Password)
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <input type="submit" value="Đăng ký" style="width: auto">
+    </div>
+</div>

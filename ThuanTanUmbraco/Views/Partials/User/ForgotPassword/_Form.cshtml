@@ -1,8 +1,8 @@
-﻿@inherits UmbracoViewPage<ThuanTanUmbraco.Models.LoginForm>
+﻿@inherits UmbracoViewPage<ThuanTanUmbraco.Models.ResetPasswordForm>
 @{
     if (!string.IsNullOrEmpty(Model.ResponseText))
     {
-        <div class="field-validation-error">
+        <div class="@(Model.IsSuccess ? "field-validation-success" : "field-validation-error")" style="margin-bottom: 10px;">
             @Model.ResponseText
         </div>
     }
@@ -14,6 +14,6 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <input type="submit" value="Reset My Password" style="width: auto">
+        <input type="submit" value="Đặt lại mật khẩu" style="width: auto">
     </div>
 </div>

@@ -8,11 +8,13 @@
     null,
     new AjaxOptions
     {
-        UpdateTargetId = "contentAjaxForm",
-        HttpMethod = "POST"
+        UpdateTargetId = "loginAjax",
+        HttpMethod = "POST",
+        OnSuccess = "onSuccess",
+        OnFailure = "onFailure"
     }, new { @class = "ajaxForm" }))
 {
-    <div id="contentAjaxForm">
+    <div id="loginAjax">
         @Html.Partial("~/Views/Partials/User/Login/_Form.cshtml", new LoginForm())
     </div>
     <div class="row">

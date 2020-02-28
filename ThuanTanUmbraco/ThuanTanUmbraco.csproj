@@ -1,6 +1,6 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -73,9 +73,6 @@
     </Reference>
     <Reference Include="Hangfire.Core, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.7.9\lib\net46\Hangfire.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Hangfire.SimpleInjector, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hangfire.SimpleInjector.1.3.1\lib\net45\Hangfire.SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="Hangfire.SqlServer, Version=1.7.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.SqlServer.1.7.9\lib\net45\Hangfire.SqlServer.dll</HintPath>
@@ -164,18 +161,6 @@
     </Reference>
     <Reference Include="Semver, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\semver.1.1.2\lib\net451\Semver.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector, Version=4.9.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.9.0\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping, Version=4.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Extensions.ExecutionContextScoping.4.0.0\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector.Integration.Web, Version=4.9.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Integration.Web.4.9.0\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=4.9.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.4.9.0\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="SQLCE4Umbraco, Version=1.0.7180.24667, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.3\lib\net452\SQLCE4Umbraco.dll</HintPath>
@@ -496,7 +481,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Templates\Emails\approved.html" />
-    <Content Include="Templates\Emails\blank.html" />
+    <Content Include="Templates\Emails\resetPassword.html" />
     <Content Include="Templates\Emails\notApproved.html" />
     <Content Include="Web.config" />
     <Content Include="Views\Partials\Layout\_Footer.cshtml" />
@@ -598,6 +583,7 @@
     <Content Include="Views\visitorItem.cshtml" />
     <Content Include="Views\Partials\User\ForgotPassword\_Form.cshtml" />
     <Content Include="Templates\Emails\docx\INVITATIONLETTER.docx" />
+    <Content Include="Views\Partials\User\SignUp\_Form.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -642,9 +628,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

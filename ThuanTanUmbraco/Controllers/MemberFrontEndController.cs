@@ -59,8 +59,8 @@ namespace ThuanTanUmbraco.Controllers
                 throw;
             }
         }
-
-        public ActionResult MemberForgotPassword(LoginForm model)
+        [HttpPost]
+        public ActionResult MemberForgotPassword(ResetPasswordForm model)
         {
             try
             {
@@ -73,11 +73,45 @@ namespace ThuanTanUmbraco.Controllers
                 {
                     var newPassword = Utils.CreateRandomPassword(10);
                     Services.MemberService.SavePassword(member, newPassword);
+                    BackgroundJobs.SendMail.EnqueueForgotPassword(model.Username, Umbraco.GetDictionaryValue("Title.ResetPassword"), newPassword);
+                    model.IsSuccess = true;
+                    model.ResponseText = Umbraco.GetDictionaryValue("SendMail.NewPassword.Success");
+                    return PartialView("~/Views/Partials/User/ForgotPassword/_Form.cshtml", model);
                 }
-
                 model.IsSuccess = false;
                 model.ResponseText = Umbraco.GetDictionaryValue("Account.NotExits");
-                return PartialView("~/Views/Partials/User/Login/_Form.cshtml", model);
+                return PartialView("~/Views/Partials/User/ForgotPassword/_Form.cshtml", model);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public ActionResult MemberSignUp(RegisterForm model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return PartialView("~/Views/Partials/User/SignUp/_Form.cshtml", model);
+                }
+                var member = Services.MemberService.GetByEmail(model.Username);
+                if (member == null)
+                {
+                    var newMember = Services.MemberService.CreateMember(model.Username, model.Username, model.FirstName + " " + model.LastName, "Member");
+                    newMember.SetValue("firstName", model.FirstName);
+                    newMember.SetValue("lastName", model.LastName);
+                    newMember.IsApproved = false;
+                    newMember.Name = model.FirstName + " " + model.LastName;
+                    Services.MemberService.Save(newMember);
+                    Services.MemberService.SavePassword(newMember, model.Password);
+                    //BackgroundJobs.SendMail.EnqueueRegister(model.Username, "Test send new password", newPassword);
+                }
+                model.IsSuccess = false;
+                model.ResponseText = Umbraco.GetDictionaryValue("Email.Exits");
+                return PartialView("~/Views/Partials/User/SignUp/_Form.cshtml", model);
             }
             catch (Exception e)
             {
