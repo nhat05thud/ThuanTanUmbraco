@@ -42,10 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ThuanTanContext.cs" />
-    <Compile Include="Migrations\202003011251212_AddTableCarts.cs" />
-    <Compile Include="Migrations\202003011251212_AddTableCarts.designer.cs">
-      <DependentUpon>202003011251212_AddTableCarts.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,11 +50,6 @@
     <PackageReference Include="EntityFramework">
       <Version>6.4.0</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003011251212_AddTableCarts.resx">
-      <DependentUpon>202003011251212_AddTableCarts.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
