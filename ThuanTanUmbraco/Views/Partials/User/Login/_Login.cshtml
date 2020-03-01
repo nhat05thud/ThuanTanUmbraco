@@ -1,7 +1,7 @@
 ﻿@using ThuanTanUmbraco.Models
 @inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
-    var forgotPasswordPage = Model.Content.Site().FirstChild("forgotPassword");
+    var forgotPasswordPage = Model.Content.Site().FirstChild("memberInfo").FirstChild("forgotPassword");
 }
 @using (Ajax.BeginForm("MemberLogin",
     "MemberFrontEnd",

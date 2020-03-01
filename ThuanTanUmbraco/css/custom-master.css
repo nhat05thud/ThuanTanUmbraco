@@ -357,7 +357,8 @@
 
     .header-right__form--cart a.pay,
     .header-right__form--cart .wrap-user__signup > a,
-    .wrap-user__login .row input[type="submit"] {
+    .wrap-user__login .row input[type="submit"],
+    .btn-custom__login {
         background: #4a4742;
         color: #fff;
         font-weight: bold;
@@ -372,7 +373,8 @@
 
         .header-right__form--cart a.pay:hover,
         .header-right__form--cart .wrap-user__signup > a:hover,
-        .wrap-user__login .row input[type="submit"]:hover {
+        .wrap-user__login .row input[type="submit"]:hover,
+        .btn-custom__login:hover {
             background: #fff;
             color: #4a4742;
             border-color: #4a4742;
@@ -1277,6 +1279,18 @@ div.copyright a {
     -webkit-overflow-scrolling: touch;
     outline: 0;
     background: url("/images/ajax-loader.gif") rgba(0, 0, 0, 0.1) center no-repeat;
+}
+.wrap-verify__member {
+    display: flex;
+    align-items: center;
+}
+.wrap-verify__member .content {
+    width: 640px;
+    max-width: 100%;
+    background: #f1f1f1;
+    margin: 0 auto;
+    padding: 30px;
+    min-height: 150px;
 }
 @media screen and (max-width: 1199px) {
     .shop-info .shop-newsletter {

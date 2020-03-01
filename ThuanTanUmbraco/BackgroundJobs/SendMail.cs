@@ -24,8 +24,7 @@ namespace ThuanTanUmbraco.BackgroundJobs
             userName: ConfigurationManager.AppSettings["SmtpClient.Username"],
             password: ConfigurationManager.AppSettings["SmtpClient.Password"],
             enableSsl: Convert.ToBoolean(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"] ?? "False"));
-
-        [DisplayName("[SendEmail] Test Email: {0}")]
+        
         public async Task SendMailResetPassword(string email, string title, string newPassword)
         {
             var newMessage = _emailSender.CreateNoReplyEmail();
@@ -34,9 +33,24 @@ namespace ThuanTanUmbraco.BackgroundJobs
             newMessage.Body = _textTemplate.Render("resetPassword", new { email, newPassword });
             await _emailSender.SendAsync(newMessage);
         }
+        public async Task SendMailVerifyRegister(string email, string title, string domainName, string verifyLink)
+        {
+            var actionEndPoint = verifyLink + "?query=";
+            var encrypData = $"{email}";
+            encrypData = CryptoHelper.EncryptString(encrypData);
+            var newMessage = _emailSender.CreateNoReplyEmail();
+            newMessage.To = email;
+            newMessage.Subject = title;
+            newMessage.Body = _textTemplate.Render("verifyRegister", new { email, domainName, actionEndPoint, encrypData });
+            await _emailSender.SendAsync(newMessage);
+        }
         public static void EnqueueForgotPassword(string email, string title, string newPassword)
         {
             BackgroundJob.Enqueue<SendMail>(s => s.SendMailResetPassword(email, title, newPassword));
+        }
+        public static void EnqueueRegister(string email, string title, string domainName, string verifyLink)
+        {
+            BackgroundJob.Enqueue<SendMail>(s => s.SendMailVerifyRegister(email, title, domainName, verifyLink));
         }
     }
 }

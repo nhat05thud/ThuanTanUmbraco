@@ -11,9 +11,9 @@ namespace ThuanTanUmbraco.Models
         }
 
         [UmbracoRequired("Form.Field.Email.Required")]
+        [UmbracoEmail("Form.Field.Email.Validation")]
         public string Username { get; set; }
         [UmbracoRequired("Form.Field.Password.Required")]
-        [UmbracoRange(10, 15, "Form.Field.PasswordLength.Required")]
         [MinLength(10, ErrorMessage = "Minimum 10 character")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -34,10 +34,16 @@ namespace ThuanTanUmbraco.Models
     }
     public class RegisterForm
     {
+        public RegisterForm()
+        {
+            IsRegisterSuccess = false;
+            IsSendMail = false;
+        }
         [UmbracoRequired("Form.Field.Email.Required")]
+        [UmbracoEmail("Form.Field.Email.Validation")]
         public string Username { get; set; }
         [UmbracoRequired("Form.Field.Password.Required")]
-        [UmbracoRange(10, 15, "Form.Field.PasswordLength.Required")]
+        [MinLength(10, ErrorMessage = "Mật khẩu ít nhất 10 ký tự")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -47,6 +53,14 @@ namespace ThuanTanUmbraco.Models
         [UmbracoRequired("Form.Field.LastName.Required")]
         public string LastName { get; set; }
         public string ResponseText { get; set; }
+        public bool IsRegisterSuccess { get; set; }
+        public bool IsSendMail { get; set; }
+    }
+
+    public class VerifyAccount
+    {
+        public string Email { get; set; }
         public bool IsSuccess { get; set; }
+        public string ResponseText { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 @inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
     var home = CurrentPage.AncestorOrSelf(1);
-    var signUp = Model.Content.Site().FirstChild("signUp");
+    var signUp = Model.Content.Site().FirstChild("memberInfo").FirstChild("signUp");
 }
 <div class="item user-form">
     <div class="item-visible">

@@ -481,6 +481,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Templates\Emails\approved.html" />
+    <Content Include="Templates\Emails\verifyRegister.html" />
     <Content Include="Templates\Emails\resetPassword.html" />
     <Content Include="Templates\Emails\notApproved.html" />
     <Content Include="Web.config" />
@@ -495,9 +496,12 @@
     <Content Include="Views\PolicyItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\OnSavingEventHandler.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UmbracoAuthorizationFilter.cs" />
     <Compile Include="BackgroundJobs\SendMail.cs" />
+    <Compile Include="ClassHelper\CryptoHelper.cs" />
     <Compile Include="ClassHelper\UmbracoDisplay.cs" />
     <Compile Include="ClassHelper\UmbracoEmail.cs" />
     <Compile Include="ClassHelper\UmbracoHelper.cs" />
@@ -508,6 +512,7 @@
     <Compile Include="Controllers\MemberFrontEndController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Controllers\VerifySignUpController.cs" />
     <Compile Include="CustomGlobal.cs" />
     <Compile Include="Mailer\EmailMessage.cs" />
     <Compile Include="Mailer\EmailSenderException.cs" />
@@ -584,6 +589,9 @@
     <Content Include="Views\Partials\User\ForgotPassword\_Form.cshtml" />
     <Content Include="Templates\Emails\docx\INVITATIONLETTER.docx" />
     <Content Include="Views\Partials\User\SignUp\_Form.cshtml" />
+    <Content Include="Views\VerifySignUp.cshtml" />
+    <Content Include="Views\Partials\VerifySignUp\_Verify.cshtml" />
+    <Content Include="Views\MemberInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -596,7 +604,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\MemberFrontEnd\" />
+    <Folder Include="Views\VerifySignUp\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
