@@ -1,0 +1,22 @@
+﻿@model List<ThuanTanUmbraco.Models.CartItem>
+
+<div class="items-in-cart">
+    @foreach (var item in Model)
+    {
+        <div class="item">
+            <div class="img">
+                <a href="@item.Link">
+                    <img class="item-image" src="@item.Image" alt="@item.Title" />
+                </a>
+            </div>
+            <div class="content">
+                <a class="item-title" data-id="@item.Id" href="@item.Link">@item.Title</a>
+                <p class="price"><span>@(string.Format("{0:#,0}", item.Price))</span> VNĐ <span class="font-weight-normal">x<span class="item-quantity">@item.Quantity</span></span></p>
+            </div>
+            <a href="javascript:void(0)" data-id="@item.Id" class="remove-item">x</a>
+        </div>
+    }
+</div>
+<p class="total">
+    Tổng: <span><i style="font-style: normal">@(string.Format("{0:#,0}", Model.Sum(x => x.Price * x.Quantity)))</i> VNĐ</span>
+</p>

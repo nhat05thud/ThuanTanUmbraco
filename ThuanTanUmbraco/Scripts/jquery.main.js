@@ -7,6 +7,8 @@
             $(".product-colors .item").removeClass("active");
             $(this).addClass("active");
         });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#add-to-cart").off("click").on("click", function() { cart.addToCart(this); });
     });
 })(jQuery);
 

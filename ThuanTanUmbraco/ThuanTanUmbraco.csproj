@@ -1,4 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -67,6 +68,12 @@
     </Reference>
     <Reference Include="DotLiquid, Version=2.0.323.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotLiquid.2.0.323\lib\net45\DotLiquid.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Examine, Version=0.1.90.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Examine.0.1.90\lib\net45\Examine.dll</HintPath>
@@ -470,6 +477,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="images\mysprite.sprite" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\cartController.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.main.js" />
@@ -479,6 +487,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Templates\Emails\approved.html" />
     <Content Include="Templates\Emails\verifyRegister.html" />
@@ -509,6 +518,7 @@
     <Compile Include="ClassHelper\UmbracoRegularExpression.cs" />
     <Compile Include="ClassHelper\UmbracoRequired.cs" />
     <Compile Include="ClassHelper\Utils.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\MemberFrontEndController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
@@ -519,6 +529,7 @@
     <Compile Include="Mailer\EmailSenderExtensions.cs" />
     <Compile Include="Mailer\IEmailSender.cs" />
     <Compile Include="Mailer\SmtpEmailSender.cs" />
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\LoginForm.cs" />
     <Compile Include="Models\Product.cs" />
@@ -592,6 +603,7 @@
     <Content Include="Views\VerifySignUp.cshtml" />
     <Content Include="Views\Partials\VerifySignUp\_Verify.cshtml" />
     <Content Include="Views\MemberInfo.cshtml" />
+    <Content Include="Views\Partials\Cart\_CartItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -605,6 +617,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\VerifySignUp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThuanTan.Entity\ThuanTan.Entity.csproj">
+      <Project>{8a3301c9-9ed9-4dfe-8899-5c7bcc4af50f}</Project>
+      <Name>ThuanTan.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -639,8 +657,11 @@
     <Error Condition="!Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.15.3\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.15.3\build\UmbracoCms.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
