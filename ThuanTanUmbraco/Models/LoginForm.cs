@@ -52,6 +52,10 @@ namespace ThuanTanUmbraco.Models
         public string FirstName { get; set; }
         [UmbracoRequired("Form.Field.LastName.Required")]
         public string LastName { get; set; }
+        [UmbracoRequired("Form.Field.PhoneNumber.Required")]
+        public string PhoneNumber { get; set; }
+        [UmbracoRequired("Form.Field.Address.Required")]
+        public string Address { get; set; }
         public string ResponseText { get; set; }
         public bool IsRegisterSuccess { get; set; }
         public bool IsSendMail { get; set; }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace ThuanTan.Entity.Models
+namespace ThuanTanUmbraco.Models
 {
-    public class Cart
+    public class CartModel
     {
         public int Id { get; set; }
         public int MemberId { get; set; }
@@ -12,8 +14,6 @@ namespace ThuanTan.Entity.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string Note { get; set; }
-        public string PaymentMethods { get; set; }
         public DateTime CreateDate { get; set; }
-        public IEnumerable<ProductCart> ProductCarts { get; set; }
     }
 }

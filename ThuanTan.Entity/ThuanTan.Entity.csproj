@@ -42,14 +42,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ThuanTanContext.cs" />
+    <Compile Include="Migrations\202003030953030_InitTables.cs" />
+    <Compile Include="Migrations\202003030953030_InitTables.designer.cs">
+      <DependentUpon>202003030953030_InitTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\ProductCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EntityFramework">
       <Version>6.4.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202003030953030_InitTables.resx">
+      <DependentUpon>202003030953030_InitTables.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

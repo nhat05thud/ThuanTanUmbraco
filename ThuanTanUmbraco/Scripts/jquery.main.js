@@ -8,79 +8,72 @@
             $(this).addClass("active");
         });
         $('[data-toggle="tooltip"]').tooltip();
-        $("#add-to-cart").off("click").on("click", function() { cart.addToCart(this); });
+        
     });
 })(jQuery);
+$(".ajaxForm").on('submit', function () {
+    if (!$(this).find("input").hasClass("input-validation-error") || !$(this).find("textarea").hasClass("input-validation-error")) {
+        $(".loading_div").css("display", "block");
+    }
+});
+$(".quantity-minus").click(function () {
+    var oldValue = parseInt($(this).parent().find("input[type='number']").val());
+    if (oldValue > 1) {
+        $(this).parent().children("input[type='number']").val(oldValue - 1);
+    }
+    cart.updateTotalPrice($(this).parent().children("input[type='number']"), $(this).parent().children("input[type='number']").val());
+});
+$(".quantity-plus").click(function () {
+    var oldValue = parseInt($(this).parent().find("input[type='number']").val());
+    $(this).parent().children("input[type='number']").val(oldValue + 1);
+    cart.updateTotalPrice($(this).parent().children("input[type='number']"), $(this).parent().children("input[type='number']").val());
+});
+$(".product-colors .item").click(function () {
+    var itemData = {
+        id: $(this).data("id"),
+        color: $(this).data("color")
+    };
+    $("body").append("<div class='loading_div'></div>");
+    $(".loading_div").show();
+    $.ajax({
+        type: "POST",
+        data: itemData,
+        url: "/umbraco/surface/product/renderproductitem",
+        success: function (data) {
+            $(".wrap-product-detail .left").html(data);
+            moreImage();
+            $(".loading_div").remove();
+        }
+    });
+});
+$(".add-to-cart").off("click").on("click", function () { cart.addToCart(this); });
+$(document).on("click", ".remove-item", function () { cart.deleteCartItem(this, $(this).data("id")); });
+$(".cart-header button#delete-all-cart").click(function () { cart.deleteAllCart(); });
+$(".cart-body__item--quantity input[type='number']").focusout(function () {
+    if ($(this).val() <= 0) {
+        $(this).val(1);
+    }
+    cart.updateTotalPrice(this, $(this).val());
+});
+$(".cart-header button#keep-shopping").click(function() {
+    $.ajax({
+        type: "POST",
+        url: "/umbraco/surface/cart/keepshopping",
+        success: function (data) {
+            window.location = data.link;
+        }
+    });
+});
+$(".cart-footer button#payment").click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/umbraco/surface/cart/gotopayment",
+        success: function (data) {
+            window.location = data.link;
+        }
+    });
+});
 
-$(document).ready(function () {
-    $(".ajaxForm").on('submit', function () {
-        if (!$(this).find("input").hasClass("input-validation-error") || !$(this).find("textarea").hasClass("input-validation-error")) {
-            $(".loading_div").css("display", "block");
-        }
-    });
-});
-function onSuccess() {
-    $(".loading_div").css("display", "none");
-    $("#divUpdateMessage").removeClass("alert alert-danger").addClass("alert alert-success");
-}
-function onFailure() {
-    $(".loading_div").css("display", "none");
-    $("#divUpdateMessage").addClass("alert alert-danger");
-}
-$(document).ready(function () {
-    $(".header-right__form--cart .items-in-cart").mCustomScrollbar({
-        autoHideScrollbar: true,
-        theme: "dark-thick",
-        scrollbarPosition: "outside"
-    });
-    $(".product-colors .item").click(function () {
-        var itemData = {
-            id: $(this).data("id"),
-            color: $(this).data("color")
-        };
-        $("body").append("<div class='loading_div'></div>");
-        $(".loading_div").show();
-        $.ajax({
-            type: "POST",
-            data: itemData,
-            url: "/admin/surface/product/renderproductitem",
-            success: function (data) {
-                $(".wrap-product-detail .left").html(data);
-                moreImage();
-                $(".loading_div").remove();
-            }
-        });
-    });
-});
-function moreImage() {
-    $(".more-image").owlCarousel({
-        margin: 10,
-        lazyLoad: true,
-        loop: false,
-        nav: false,
-        dots: false,
-        autoplay: false,
-        autoplayTimeout: 7000,
-        autoplayHoverPause: true,
-        responsive: {
-            0: {
-                items: 3
-            },
-            480: {
-                items: 3
-            },
-            600: {
-                items: 4
-            },
-            1000: {
-                items: 4
-            },
-            1200: {
-                items: 5
-            }
-        }
-    });
-}
 $(document).click(function (e) {
     var container = $("#header");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
@@ -125,6 +118,12 @@ function myfunload() {
             $("#mobile-overlay").removeClass("menu-is--active");
         }
         $(".header-right__form--cart .wrap-hidden").removeClass("active")
+    });
+
+    $(".header-right__form--cart .items-in-cart").mCustomScrollbar({
+        autoHideScrollbar: true,
+        theme: "dark-thick",
+        scrollbarPosition: "outside"
     });
 
     $(".main-banner").owlCarousel({
@@ -173,6 +172,43 @@ function logout() {
             location.reload();
         }
     });
+}
+function moreImage() {
+    $(".more-image").owlCarousel({
+        margin: 10,
+        lazyLoad: true,
+        loop: false,
+        nav: false,
+        dots: false,
+        autoplay: false,
+        autoplayTimeout: 7000,
+        autoplayHoverPause: true,
+        responsive: {
+            0: {
+                items: 3
+            },
+            480: {
+                items: 3
+            },
+            600: {
+                items: 4
+            },
+            1000: {
+                items: 4
+            },
+            1200: {
+                items: 5
+            }
+        }
+    });
+}
+function onSuccess() {
+    $(".loading_div").css("display", "none");
+    $("#divUpdateMessage").removeClass("alert alert-danger").addClass("alert alert-success");
+}
+function onFailure() {
+    $(".loading_div").css("display", "none");
+    $("#divUpdateMessage").addClass("alert alert-danger");
 }
 $(window).scroll(function () {
     if ($(this).scrollTop() > 100) {

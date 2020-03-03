@@ -115,6 +115,8 @@ namespace ThuanTanUmbraco.Controllers
                         var newMember = Services.MemberService.CreateMember(model.Username, model.Username, model.FirstName + " " + model.LastName, "Member");
                         newMember.SetValue("firstName", model.FirstName);
                         newMember.SetValue("lastName", model.LastName);
+                        newMember.SetValue("phoneNumber", model.PhoneNumber);
+                        newMember.SetValue("address", model.Address);
                         newMember.IsApproved = false;
                         newMember.Name = model.FirstName + " " + model.LastName;
                         Services.MemberService.Save(newMember);

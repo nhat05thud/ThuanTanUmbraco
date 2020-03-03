@@ -519,6 +519,7 @@
     <Compile Include="ClassHelper\UmbracoRequired.cs" />
     <Compile Include="ClassHelper\Utils.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckOutController.cs" />
     <Compile Include="Controllers\MemberFrontEndController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
@@ -530,9 +531,12 @@
     <Compile Include="Mailer\IEmailSender.cs" />
     <Compile Include="Mailer\SmtpEmailSender.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartModel.cs" />
+    <Compile Include="Models\CheckOut.cs" />
     <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\LoginForm.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductCartModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateEngine\DotLiquidTemplate.cs" />
     <Compile Include="TemplateEngine\ITextTemplate.cs" />
@@ -604,6 +608,14 @@
     <Content Include="Views\Partials\VerifySignUp\_Verify.cshtml" />
     <Content Include="Views\MemberInfo.cshtml" />
     <Content Include="Views\Partials\Cart\_CartItem.cshtml" />
+    <Content Include="Views\Cart.cshtml" />
+    <Content Include="Views\CheckOut.cshtml" />
+    <Content Include="Views\Partials\Cart\CartDetail\_Cart.cshtml" />
+    <Content Include="Views\Partials\Checkout\Product\_ItemInCart.cshtml" />
+    <Content Include="Views\Partials\Checkout\_checkout.cshtml" />
+    <Content Include="Views\Partials\Cart\_CartEmpty.cshtml" />
+    <Content Include="Views\Partials\Checkout\Information\_information.cshtml" />
+    <Content Include="Views\Partials\Checkout\_Form.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

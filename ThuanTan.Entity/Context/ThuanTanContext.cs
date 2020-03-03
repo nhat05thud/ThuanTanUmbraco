@@ -10,5 +10,6 @@ namespace ThuanTan.Entity.Context
         {
         }
         public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<ProductCart> ProductCarts { get; set; }
     }
 }

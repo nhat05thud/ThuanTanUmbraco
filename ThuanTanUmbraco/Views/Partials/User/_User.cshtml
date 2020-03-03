@@ -1,5 +1,4 @@
-﻿@using ThuanTanUmbraco.Models
-@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
     var home = CurrentPage.AncestorOrSelf(1);
     var signUp = Model.Content.Site().FirstChild("memberInfo").FirstChild("signUp");
