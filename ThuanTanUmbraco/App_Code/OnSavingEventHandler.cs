@@ -9,12 +9,12 @@ namespace ThuanTanUmbraco
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             //RouteTable.Routes.MapRoute(
-            //    name: "VerifySignUp",
-            //    url: "Member/VerifySignUp/{query}",
+            //    name: "ShoppingCartTree",
+            //    url: "shoppingCart/Index",
             //    defaults: new
             //    {
-            //        controller = "Member",
-            //        action = "VerifySignUp",
+            //        controller = "CartBackendApi",
+            //        action = "RenderBackEndShoppingCart",
             //        query = UrlParameter.Optional
             //    });
         }

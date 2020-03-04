@@ -271,6 +271,7 @@
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.htm" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
+    <Content Include="App_Plugins\ShoppingCartTree\backoffice\shoppingCartTree\shoppingCart.html" />
     <Content Include="App_Plugins\TinyMceTemplates\templates-config.html" />
     <Content Include="config\grid.editors.config.js" />
     <Content Include="config\Lang\cs-CZ.user.xml" />
@@ -295,6 +296,32 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cart\bootstrap.min.css" />
+    <Content Include="Content\cart\dataTables.bootstrap.min.css" />
+    <Content Include="Content\cart\dataTables.bootstrap.min.js" />
+    <Content Include="Content\cart\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\cart\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\cart\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\cart\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\cart\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\cart\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\cart\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\cart\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\cart\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\cart\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\cart\jquery-ui-1.12.1.min.js" />
+    <Content Include="Content\cart\jquery-ui.min.css" />
+    <Content Include="Content\cart\jquery.dataTables.min.js" />
+    <Content Include="Content\cart\notify.min.js" />
     <Content Include="Content\Site.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\custom-master.css" />
@@ -344,6 +371,11 @@
     <Content Include="images\play.png" />
     <Content Include="images\scrolltop.png" />
     <Content Include="images\search.png" />
+    <Content Include="images\sort_asc.png" />
+    <Content Include="images\sort_asc_disabled.png" />
+    <Content Include="images\sort_both.png" />
+    <Content Include="images\sort_desc.png" />
+    <Content Include="images\sort_desc_disabled.png" />
     <Content Include="images\user.png" />
     <Content Include="images\vi.png" />
     <Content Include="images\w1.png" />
@@ -507,6 +539,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\OnSavingEventHandler.cs" />
+    <Content Include="App_Code\ShoppingCartApplication.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UmbracoAuthorizationFilter.cs" />
@@ -519,10 +552,12 @@
     <Compile Include="ClassHelper\UmbracoRegularExpression.cs" />
     <Compile Include="ClassHelper\UmbracoRequired.cs" />
     <Compile Include="ClassHelper\Utils.cs" />
+    <Compile Include="Controllers\CartBackendController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckOutController.cs" />
     <Compile Include="Controllers\MemberFrontEndController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ShoppingCartTreeController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\VerifySignUpController.cs" />
     <Compile Include="CustomGlobal.cs" />
@@ -532,11 +567,13 @@
     <Compile Include="Mailer\IEmailSender.cs" />
     <Compile Include="Mailer\SmtpEmailSender.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartBackendModel.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\CheckOut.cs" />
     <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\LoginForm.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductCartBackend.cs" />
     <Compile Include="Models\ProductCartModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateEngine\DotLiquidTemplate.cs" />
@@ -617,6 +654,8 @@
     <Content Include="Views\Partials\Cart\_CartEmpty.cshtml" />
     <Content Include="Views\Partials\Checkout\Information\_information.cshtml" />
     <Content Include="Views\Partials\Checkout\_Form.cshtml" />
+    <Content Include="Views\Partials\CartApi\_CartApi.cshtml" />
+    <Content Include="Views\Partials\CartApi\_ViewCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -628,7 +667,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\ShoppingCartTree\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThuanTan.Entity\ThuanTan.Entity.csproj">
       <Project>{8a3301c9-9ed9-4dfe-8899-5c7bcc4af50f}</Project>
