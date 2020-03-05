@@ -1,4 +1,6 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@using Umbraco.Core
+@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
     Layout = "Master.cshtml";
     var node = (IPublishedContent)CurrentPage;
@@ -13,20 +15,18 @@
             @if (colorNested != null && colorNested.Any())
             {
                 var item = colorNested.First();
-                var listImages = (List<IPublishedContent>)item.GetPropertyValue<IEnumerable<IPublishedContent>>("listImage");
+                var thumb = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+                var listImages = (List<IPublishedContent>)item.GetPropertyValue<IEnumerable<IPublishedContent>>("moreImage");
+                <div class="main-image">
+                    <img src="@(thumb != null ? thumb.GetCropUrl(550, 550, imageCropMode: ImageCropMode.BoxPad, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/550x550")" alt="@node.Name" />
+                </div>
                 if (listImages != null)
                 {
-                    <div class="main-image">
-                        @foreach (var img in listImages.Take(1))
-                        {
-                            <img src="@img.GetCropUrl(550, 550, furtherOptions: "&slimmage=true")" alt="@node.Name" />
-                        }
-                    </div>
                     <div class="more-image owl-carousel">
-                        @foreach (var img in listImages.Skip(1))
+                        @foreach (var img in listImages)
                         {
                             <div class="item">
-                                <img src="@img.GetCropUrl(90, 90, furtherOptions: "&slimmage=true")" alt="@node.Name" />
+                                <img src="@img.GetCropUrl(90, 90, imageCropMode: ImageCropMode.BoxPad, furtherOptions: "&bgcolor=fff&slimmage=true")" alt="@node.Name" />
                             </div>
                         }
                     </div>
@@ -41,30 +41,38 @@
             }
         </div>
         <div class="right">
-            <h1>@node.Name</h1>
+            <a href="@node.Url" class="item-title">@node.Name</a>
             <div class="content-product">
                 <ul>
-                    <li>Size: @node.GetPropertyValue("size")</li>
+                    <li><b>Size:</b> @node.GetPropertyValue("size")</li>
                     @if (colorNested != null && colorNested.Any())
                     {
                         <li>
-                            @Umbraco.GetDictionaryValue("Color"):
+                            <b>Màu sắc:</b>
                             <div class="product-colors">
                                 @foreach (var item in colorNested)
                                 {
-                                    <div class="item @(colorNested.IndexOf(item) == 0 ? "active" : "")" data-id="@node.Id" data-color="@item.GetPropertyValue("color")" style="background: @item.GetPropertyValue("color")"></div>
+                                    if (!string.IsNullOrEmpty(item.GetPropertyValue<string>("color")))
+                                    {
+                                        var color = ThuanTanUmbraco.Models.ListProductColors.ProductColors.FirstOrDefault(x => x.Key == item.GetPropertyValue<string>("color").Trim().Replace(" ", ""));
+                                        if (color != null)
+                                        {
+                                            <div class="item @(colorNested.IndexOf(item) == 0 ? "active" : "")" data-id="@node.Id" data-color="@(item.GetPropertyValue<string>("color"))" style="background: rgba@(color.Value)"></div>
+                                        }
+                                    }
                                 }
                             </div>
                         </li>
                     }
                 </ul>
             </div>
+            <input type="hidden" id="current___product--id" value="@node.Id" />
             <div class="content-product">
                 <div class="desc">
                     @node.GetPropertyValue("description")
                 </div>
                 <p class="price">
-                    Giá bán:
+                    <b>Giá bán:</b>
                     @if (node.GetPropertyValue<int>("price") > 0)
                     {
                         if (node.GetPropertyValue<double>("promotion") > 0)
@@ -94,7 +102,8 @@
                 </p>
             </div>
             <div class="hotline-tuvan">Hotline tư vấn: <span>@(home.GetPropertyValue("hotline"))</span></div>
-            <a href="#" class="note">mua hàng</a>
+            <button type="button" id="buy-now" class="note">mua hàng</button>
+            <button type="button" id="add-to-cart" class="note"><i class="fa fa-cart-plus"></i> Thêm vào giỏ hàng</button>
         </div>
     </div>
     <div class="product-description">
@@ -138,10 +147,6 @@
                                 <p class="percent">-@(item.GetPropertyValue<double>("promotion"))%</p>
                             }
                         </a>
-                        <div class="hidden-section">
-                            <a href="@item.Url" data-toggle="tooltip" data-placement="top" title="View details"><i class="fa fa-eye"></i></a>
-                            <a href="javascript:void(0)" class="add-to-cart" data-toggle="tooltip" data-placement="top" title="Add to cart"><i class="fa fa-cart-plus"></i></a>
-                        </div>
                     </div>
                     <div class="content">
                         <a class="item-title" data-id="@item.Id" href="@item.Url">@item.Name</a>
