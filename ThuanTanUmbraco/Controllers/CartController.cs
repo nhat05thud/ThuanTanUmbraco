@@ -83,14 +83,13 @@ namespace ThuanTanUmbraco.Controllers
             Session["Cart"] = list;
         }
         [HttpPost]
-        public ActionResult DeleteCartItem(int id)
+        public ActionResult DeleteCartItem(int id, string color)
         {
-            var listCart = new List<CartItem>();
             var itemPrice = 0;
             if (Session["Cart"] != null)
             {
-                listCart = (List<CartItem>)Session["Cart"];
-                var item = listCart.SingleOrDefault(x => x.Id == id);
+                var listCart = (List<CartItem>)Session["Cart"];
+                var item = listCart.SingleOrDefault(x => x.Id == id && x.Color.Trim().Replace(" ", "") == color.Trim().Replace(" ", ""));
                 if (item != null)
                 {
                     itemPrice = item.Price * item.Quantity;

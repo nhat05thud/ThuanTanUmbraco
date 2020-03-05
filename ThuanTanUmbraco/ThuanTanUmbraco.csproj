@@ -328,6 +328,7 @@
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\fonts.css" />
     <Content Include="css\site.css" />
+    <Content Include="css\toastr.min.css" />
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-web\Quicksand\Quicksand-Bold.svg" />
@@ -522,6 +523,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Templates\Emails\approved.html" />
     <Content Include="Templates\Emails\verifyRegister.html" />
     <Content Include="Templates\Emails\resetPassword.html" />
@@ -668,6 +670,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Umbraco\" />
     <Folder Include="Views\ShoppingCartTree\" />
   </ItemGroup>
   <ItemGroup>

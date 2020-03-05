@@ -46,8 +46,8 @@ $(".product-colors .item").click(function () {
         }
     });
 });
-$(".add-to-cart").off("click").on("click", function () { cart.addToCart(this); });
-$(document).on("click", ".remove-item", function () { cart.deleteCartItem(this, $(this).data("id")); });
+$("#add-to-cart").off("click").on("click", function () { cart.addToCart(this); });
+$(document).on("click", ".remove-item", function () { cart.deleteCartItem(this, $(this).data("id"), $(this).data("color")); });
 $(".cart-header button#delete-all-cart").click(function () { cart.deleteAllCart(); });
 $(".cart-body__item--quantity input[type='number']").focusout(function () {
     if ($(this).val() <= 0) {
@@ -118,12 +118,6 @@ function myfunload() {
             $("#mobile-overlay").removeClass("menu-is--active");
         }
         $(".header-right__form--cart .wrap-hidden").removeClass("active")
-    });
-
-    $(".header-right__form--cart .items-in-cart").mCustomScrollbar({
-        autoHideScrollbar: true,
-        theme: "dark-thick",
-        scrollbarPosition: "outside"
     });
 
     $(".main-banner").owlCarousel({
