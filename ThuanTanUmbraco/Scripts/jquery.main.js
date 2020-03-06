@@ -38,7 +38,7 @@ $(".product-colors .item").click(function () {
     $.ajax({
         type: "POST",
         data: itemData,
-        url: "/umbraco/surface/product/renderproductitem",
+        url: "/admin/surface/product/renderproductitem",
         success: function (data) {
             $(".wrap-product-detail .left").html(data);
             moreImage();
@@ -47,6 +47,7 @@ $(".product-colors .item").click(function () {
     });
 });
 $("#add-to-cart").off("click").on("click", function () { cart.addToCart(this); });
+$("#buy-now").off("click").on("click", function () { cart.buy(this); });
 $(document).on("click", ".remove-item", function () { cart.deleteCartItem(this, $(this).data("id"), $(this).data("color")); });
 $(".cart-header button#delete-all-cart").click(function () { cart.deleteAllCart(); });
 $(".cart-body__item--quantity input[type='number']").focusout(function () {
@@ -58,7 +59,7 @@ $(".cart-body__item--quantity input[type='number']").focusout(function () {
 $(".cart-header button#keep-shopping").click(function() {
     $.ajax({
         type: "POST",
-        url: "/umbraco/surface/cart/keepshopping",
+        url: "/admin/surface/cart/keepshopping",
         success: function (data) {
             window.location = data.link;
         }
@@ -67,13 +68,13 @@ $(".cart-header button#keep-shopping").click(function() {
 $(".cart-footer button#payment").click(function () {
     $.ajax({
         type: "POST",
-        url: "/umbraco/surface/cart/gotopayment",
+        url: "/admin/surface/cart/gotopayment",
         success: function (data) {
             window.location = data.link;
         }
     });
 });
-
+$(".wrap-main__aside.filter--product .item ul.color li").click(function() { filter.filterColor(this); });
 $(document).click(function (e) {
     var container = $("#header");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
@@ -160,7 +161,7 @@ function logout() {
     $("body > .loading_div").css("display", "block");
     $.ajax({
         type: "POST",
-        url: "/umbraco/surface/memberfrontend/logout",
+        url: "/admin/surface/memberfrontend/logout",
         success: function () {
             $("body > .loading_div").css("display", "none");
             location.reload();

@@ -28,7 +28,7 @@ namespace ThuanTanUmbraco.Models
     public class ResetPasswordForm
     {
         [UmbracoRequired("Form.Field.Email.Required")]
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string ResponseText { get; set; }
         public bool IsSuccess { get; set; }
     }
@@ -46,7 +46,7 @@ namespace ThuanTanUmbraco.Models
         [MinLength(10, ErrorMessage = "Mật khẩu ít nhất 10 ký tự")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.Web.Mvc.Compare("Password", ErrorMessage = "Xác nhận mật khẩu không đúng.")]
         public string ConfirmPassword { get; set; }
         [UmbracoRequired("Form.Field.FirstName.Required")]
         public string FirstName { get; set; }

@@ -53,7 +53,8 @@ namespace ThuanTanUmbraco.Controllers
                             CartId = cartId,
                             Quantity = item.Quantity,
                             ProductId = item.Id,
-                            Price = item.Price
+                            Price = item.Price,
+                            Color = item.Color
                         };
                         db.ProductCarts.Add(productCart);
                     }

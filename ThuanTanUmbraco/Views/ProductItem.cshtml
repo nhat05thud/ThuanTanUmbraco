@@ -57,7 +57,8 @@
                                         var color = ThuanTanUmbraco.Models.ListProductColors.ProductColors.FirstOrDefault(x => x.Key == item.GetPropertyValue<string>("color").Trim().Replace(" ", ""));
                                         if (color != null)
                                         {
-                                            <div class="item @(colorNested.IndexOf(item) == 0 ? "active" : "")" data-id="@node.Id" data-color="@(item.GetPropertyValue<string>("color"))" style="background: rgba@(color.Value)"></div>
+                                            <div class="item @(colorNested.IndexOf(item) == 0 ? "active" : "")" data-toggle="tooltip" data-placement="top" title="@(item.GetPropertyValue<string>("color"))" data-id="@node.Id" data-color="@(item.GetPropertyValue<string>("color"))" style="background: rgba@(color.Value)"></div>
+
                                         }
                                     }
                                 }
@@ -137,11 +138,20 @@
         <div class="product-carousel owl-carousel">
             @foreach (var item in morePro)
             {
-                var thumb = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+                var colorNesteds = (List<IPublishedContent>)item.GetPropertyValue<IEnumerable<IPublishedContent>>("productColors");
                 <div class="item__grid--2">
                     <div class="img">
                         <a href="@item.Url">
-                            <img class="item-image" src="@(thumb != null ? thumb.GetCropUrl(270, 240, furtherOptions: "&slimmage=true") : "https://via.placeholder.com/270x240")" alt="@item.Name" />
+                            @if (colorNesteds != null && colorNesteds.Any())
+                            {
+                                var itemColor = colorNesteds.First();
+                                var thumb = Umbraco.TypedMedia(itemColor.GetPropertyValue<int>("image"));
+                                <img class="item-image" src="@(thumb != null ? thumb.GetCropUrl(270, 240, imageCropMode: ImageCropMode.BoxPad, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/270x240")" alt="@item.Name" />
+                            }
+                            else
+                            {
+                                <img class="item-image" src="https://via.placeholder.com/270x240" alt="@item.Name" />
+                            }
                             @if (item.GetPropertyValue<double>("promotion") > 0)
                             {
                                 <p class="percent">-@(item.GetPropertyValue<double>("promotion"))%</p>
@@ -175,10 +185,6 @@
                                         </span> <text>VND</text>
                                     </span>
                                 }
-                            }
-                            else
-                            {
-                                <b>Liên hệ</b>
                             }
                         </p>
                     </div>

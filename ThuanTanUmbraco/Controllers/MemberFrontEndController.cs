@@ -69,12 +69,12 @@ namespace ThuanTanUmbraco.Controllers
                 {
                     return PartialView("~/Views/Partials/User/ForgotPassword/_Form.cshtml", model);
                 }
-                var member = Services.MemberService.GetByEmail(model.Username);
+                var member = Services.MemberService.GetByEmail(model.Email);
                 if (member != null && member.IsApproved)
                 {
                     var newPassword = Utils.CreateRandomPassword(10);
                     Services.MemberService.SavePassword(member, newPassword);
-                    BackgroundJobs.SendMail.EnqueueForgotPassword(model.Username, Umbraco.GetDictionaryValue("Title.ResetPassword"), newPassword);
+                    BackgroundJobs.SendMail.EnqueueForgotPassword(model.Email, Umbraco.GetDictionaryValue("Title.ResetPassword"), newPassword);
                     model.IsSuccess = true;
                     model.ResponseText = Umbraco.GetDictionaryValue("SendMail.NewPassword.Success");
                     return PartialView("~/Views/Partials/User/ForgotPassword/_Form.cshtml", model);

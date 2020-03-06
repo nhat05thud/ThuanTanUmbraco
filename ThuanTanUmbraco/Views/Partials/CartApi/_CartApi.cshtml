@@ -55,7 +55,7 @@
     $(document).ready(function() {
         dataTable = $("#cart-table").DataTable({
             "ajax": {
-                "url": "/umbraco/surface/cartbackend/getdata",
+                "url": "/admin/surface/cartbackend/getdata",
                 "type": "GET",
                 "datatype": "json"
             },
@@ -105,7 +105,7 @@
 
     function ViewCart(e) {
         var formDiv = $('<div class="addofeditpop"></div>');
-        var url = "/umbraco/surface/cartbackend/viewcart/" + parseInt($(e).data("id"));
+        var url = "/admin/surface/cartbackend/viewcart/" + parseInt($(e).data("id"));
         $("body").append("<div class='loading_div'></div>");
         $.get(url)
             .done(function (response) {

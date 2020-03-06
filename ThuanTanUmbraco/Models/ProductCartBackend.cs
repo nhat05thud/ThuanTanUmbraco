@@ -12,5 +12,6 @@ namespace ThuanTanUmbraco.Models
         public int Quantity { get; set; }
         public int CartId { get; set; }
         public int Price { get; set; }
+        public string Color { get; set; }
     }
 }

@@ -46,6 +46,10 @@
     <Compile Include="Migrations\202003030953030_InitTables.designer.cs">
       <DependentUpon>202003030953030_InitTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003060421135_AddColumnColorTableProductCart.cs" />
+    <Compile Include="Migrations\202003060421135_AddColumnColorTableProductCart.designer.cs">
+      <DependentUpon>202003060421135_AddColumnColorTableProductCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\ProductCart.cs" />
@@ -59,6 +63,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003030953030_InitTables.resx">
       <DependentUpon>202003030953030_InitTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003060421135_AddColumnColorTableProductCart.resx">
+      <DependentUpon>202003060421135_AddColumnColorTableProductCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

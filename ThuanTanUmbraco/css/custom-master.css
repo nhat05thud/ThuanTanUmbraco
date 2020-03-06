@@ -772,10 +772,15 @@
 /**/
 .wrap-main__aside {
     border: 1px solid #e8e8e8;
-    padding: 45px 15px 15px;
+    padding: 45px 15px 5px;
     position: relative;
     box-shadow: 5px 4px 3px 0px rgba(0,0,0,0.06);
+    margin-bottom: 30px;
 }
+
+    .wrap-main__aside.filter--product {
+        padding: 0;
+    }
 
     .wrap-main__aside > img {
         position: absolute;
@@ -788,7 +793,6 @@
     }
 
     .wrap-main__aside .item {
-        margin-bottom: 20px;
     }
 
         .wrap-main__aside .item > a {
@@ -806,13 +810,13 @@
             padding: 0;
         }
 
-            .wrap-main__aside .item ul li {
+            .wrap-main__aside .item ul.ul__product--item li {
                 border-top: 1px dotted #ccc;
                 padding-left: 15px;
                 position: relative;
             }
 
-                .wrap-main__aside .item ul li:before {
+                .wrap-main__aside .item ul.ul__product--item li:before {
                     position: absolute;
                     content: "\f105";
                     font-family: "FontAwesome";
@@ -822,7 +826,7 @@
                     top: 12px;
                 }
 
-                .wrap-main__aside .item ul li a {
+                .wrap-main__aside .item ul.ul__product--item li a {
                     font-size: 14px;
                     color: #000;
                     display: inline-block;
@@ -830,8 +834,8 @@
                 }
 
                     .wrap-main__aside .item a:hover,
-                    .wrap-main__aside .item ul li a:hover,
-                    .wrap-main__aside .item ul li.active a {
+                    .wrap-main__aside .item ul.ul__product--item li a:hover,
+                    .wrap-main__aside .item ul.ul__product--item li.active a {
                         color: #fc2619;
                     }
 
@@ -842,6 +846,53 @@
     margin: 0 0 20px;
     text-transform: uppercase;
 }
+
+.wrap-main__aside.filter--product > h1 {
+    background: #4b4841;
+    color: #fff;
+    margin: 0;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+}
+.wrap-main__aside.filter--product .item {
+    padding: 15px;
+}
+.wrap-main__aside.filter--product .item > h5 {
+    font-weight: bold;
+    margin: 0 0 5px;
+}
+.wrap-main__aside.filter--product .item ul.color li {
+    padding: 5px 0;
+    cursor: pointer;
+}
+    .wrap-main__aside.filter--product .item ul.color li span {
+        width: 25px;
+        height: 25px;
+        -ms-border-radius: 50%;
+        border-radius: 50%;
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+    }
+.wrap-main__aside.filter--product .item ul.color li:hover {
+        text-decoration: underline;
+    }
+    .wrap-main__aside.filter--product .item ul.color li.active span:before {
+        position: absolute;
+        content: "\f00c";
+        font-family: 'FontAwesome';
+        background: rgba(0, 0, 0, 0.2);
+        color: #fff;
+        width: 25px;
+        line-height: 25px;
+        text-align: center;
+        font-size: 10px;
+        -ms-border-radius: 50%;
+        border-radius: 50%;
+    }
 /**/
 /**/
 .wrap-product-detail {
@@ -886,9 +937,10 @@
             margin-bottom: 20px;
             color: #000;
         }
-        .wrap-product-detail .right a.item-title:hover {
-            color: red;
-        }
+
+            .wrap-product-detail .right a.item-title:hover {
+                color: red;
+            }
 
         .wrap-product-detail .right .content-product {
             padding: 20px 0;
@@ -1563,6 +1615,8 @@ div.copyright a {
 
         .checkout-product-wrap .cart-item .img img {
             width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
     .checkout-product-wrap .cart-item .content {
@@ -1573,8 +1627,8 @@ div.copyright a {
         .checkout-product-wrap .cart-item .content > a {
             color: #000;
             display: inline-block;
-            text-decoration: underline;
-            margin-bottom: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
             .checkout-product-wrap .cart-item .content > a:hover {

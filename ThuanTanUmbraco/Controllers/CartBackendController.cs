@@ -65,7 +65,8 @@ namespace ThuanTanUmbraco.Controllers
                                     CartId = y.CartId,
                                     Quantity = y.Quantity,
                                     Price = y.Price,
-                                    ProductId = y.ProductId
+                                    ProductId = y.ProductId,
+                                    Color = y.Color
                                 }).ToList()
                         };
                         return PartialView("~/Views/Partials/CartApi/_ViewCart.cshtml", model);

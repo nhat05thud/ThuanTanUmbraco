@@ -1,4 +1,5 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
     Layout = "Master.cshtml";
     var node = (IPublishedContent)CurrentPage;
@@ -70,11 +71,20 @@
         <div class="product-carousel owl-carousel">
             @foreach (var item in newProducts)
             {
-                var thumb = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+                var colorNested = (List<IPublishedContent>)item.GetPropertyValue<IEnumerable<IPublishedContent>>("productColors");
                 <div class="item__grid--2">
                     <div class="img">
                         <a href="@item.Url">
-                            <img class="item-image" src="@(thumb != null ? thumb.GetCropUrl(270, 240, furtherOptions: "&slimmage=true") : "https://via.placeholder.com/270x240")" alt="@item.Name" />
+                            @if (colorNested != null && colorNested.Any())
+                            {
+                                var itemColor = colorNested.First();
+                                var thumb = Umbraco.TypedMedia(itemColor.GetPropertyValue<int>("image"));
+                                <img class="item-image" src="@(thumb != null ? thumb.GetCropUrl(270, 240, imageCropMode: ImageCropMode.BoxPad, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/270x240")" alt="@item.Name" />
+                            }
+                            else
+                            {
+                                <img class="item-image" src="https://via.placeholder.com/270x240" alt="@item.Name" />
+                            }
                             @if (item.GetPropertyValue<double>("promotion") > 0)
                             {
                                 <p class="percent">-@(item.GetPropertyValue<double>("promotion"))%</p>
@@ -108,10 +118,6 @@
                                         </span> <text>VND</text>
                                     </span>
                                 }
-                            }
-                            else
-                            {
-                                <b>Liên hệ</b>
                             }
                         </p>
                     </div>

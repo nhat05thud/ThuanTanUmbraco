@@ -35,33 +35,52 @@
         }
         return item;
     },
-    addToCart: function (e) {
-        $(e).attr("disabled", "disabled");
+    addItemToCart: function (e) {
         var item = cart.getItemProperties(e);
         if (!cart.isInArray(item.id, cart.properties.cartsId)) {
             cart.properties.cartsId.push(item.id);
             cart.properties.carts.push(item);
         } else {
-            for (var i = 0; i < cart.properties.carts.length; i++) {
-                if (cart.properties.carts[i].id === item.id && cart.properties.carts[i].color === item.color) {
-                    cart.properties.carts[i].quantity = parseInt(cart.properties.carts[i].quantity) + 1;
+            if (cart.properties.carts.some(cart => cart.id === item.id && cart.color === item.color)) {
+                var cartItem = cart.properties.carts.find(cart => cart.id === item.id && cart.color === item.color);
+                if (cartItem) {
+                    cartItem.quantity = parseInt(cartItem.quantity) + 1;
                 }
-                else if (cart.properties.carts[i].id === item.id && cart.properties.carts[i].color !== item.color) {
-                    cart.properties.carts.push(item);
-                }
+            } else {
+                cart.properties.carts.push(item);
             }
         }
-        cart.genarateCart(cart.properties.carts);
+    },
+    buy: function (e) {
+        $(e).attr("disabled", "disabled");
+        cart.addItemToCart(e);
+        cart.addSessionCart(cart.properties.carts, "buy");
+        setTimeout(function () { $(e).removeAttr("disabled"); }, 500);
+    },
+    addToCart: function (e) {
+        $(e).attr("disabled", "disabled");
+        cart.addItemToCart(e);
+        cart.genarateCart(cart.properties.carts, "addToCart");
         cart.addSessionCart(cart.properties.carts);
         setTimeout(function () { $(e).removeAttr("disabled"); }, 500);
     },
-    addSessionCart: function (list) {
+    addSessionCart: function (list, action) {
         $.ajax({
             type: "POST",
             data: { model: JSON.stringify(list) },
-            url: "/umbraco/surface/cart/addtocart",
+            url: "/admin/surface/cart/addtocart",
             success: function (res) {
-                toastr.success("Thêm vào giỏ hàng thành công!", "Thành công");
+                if (action === "buy") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/surface/cart/gotopayment",
+                        success: function (data) {
+                            window.location = data.link;
+                        }
+                    });
+                } else {
+                    toastr.success("Thêm vào giỏ hàng thành công!", "Thành công");
+                }
             }
         });
     },
@@ -69,7 +88,7 @@
         $.ajax({
             type: "POST",
             data: { id: parseInt(id), color: color },
-            url: "/umbraco/surface/cart/deletecartitem",
+            url: "/admin/surface/cart/deletecartitem",
             success: function (res) {
                 if ($(cart.properties.cartItemHeader).length > 1) {
                     $(item).parent().remove();
@@ -79,12 +98,19 @@
                     $(cart.properties.cartWrapHeader).html("<div class='empty-cart'><p>Chưa có sản phẩm nào trong giỏ hàng</p></div>");
                 }
                 cart.updateQuantity();
-                cart.properties.carts = cart.properties.carts.filter(function (obj) {
-                    return obj.id !== id;
+                var cartItem = cart.properties.carts.filter(function (obj) {
+                    return obj.id === id && obj.color === color;
                 });
-                cart.properties.cartsId = $.grep(cart.properties.cartsId, function (value) {
-                    return value !== id;
+                var cartIndex = cart.properties.carts.findIndex(x => x.id === cartItem[0].id && x.color === cartItem[0].color);
+                cart.properties.carts.splice(cartIndex, 1);
+                var carts = cart.properties.carts.filter(function (obj) {
+                    return obj.id === id;
                 });
+                if (carts.length === 0) {
+                    cart.properties.cartsId = $.grep(cart.properties.cartsId, function (value) {
+                        return value !== id;
+                    });
+                }
                 toastr.success("Xóa sản phẩm trong giỏ thành công!", "Thành công");
             }
         });
@@ -92,7 +118,7 @@
     deleteAllCart: function () {
         $.ajax({
             type: "POST",
-            url: "/umbraco/surface/cart/deleteallcart",
+            url: "/admin/surface/cart/deleteallcart",
             success: function (data) {
                 $("#wrapper-cart").html(data);
                 cart.checkSessionCart();
@@ -105,7 +131,7 @@
         $.ajax({
             type: "POST",
             data: { model: JSON.stringify(list) },
-            url: "/umbraco/surface/cart/rendercartitem",
+            url: "/admin/surface/cart/rendercartitem",
             success: function (res) {
                 $(cart.properties.cartWrapHeader).html(res);
                 var quantity = 0;
@@ -119,7 +145,7 @@
     checkSessionCart: function () {
         $.ajax({
             type: "POST",
-            url: "/umbraco/surface/cart/initcart",
+            url: "/admin/surface/cart/initcart",
             success: function (res) {
                 $(cart.properties.cartWrapHeader).html(res);
                 cart.updateQuantity();
@@ -153,7 +179,7 @@
         $.ajax({
             type: "POST",
             data: { id: parseInt($(e).data("id")), quantity: parseInt(quantity) },
-            url: "/umbraco/surface/cart/updatetotalprice",
+            url: "/admin/surface/cart/updatetotalprice",
             success: function (res) {
                 $(".cart-footer ul li .currency > span").text(cart.formatNumberThousand(res.total));
                 cart.checkSessionCart();
